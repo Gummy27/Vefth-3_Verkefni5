@@ -1,6 +1,11 @@
 <link type="text/css" rel="stylesheet" href="/static/main.css/">
 <body>
-    <header>{% include "header.tpl" %}</header>
+    <header>
+        <div>
+            {% block header %}{% endblock %}
+            <h1>{% include 'header.tpl' %}</h1>
+        </div>
+    </header>
     <main class="Items">
         {% block content %}{% endblock %}
     </main>

@@ -3,7 +3,6 @@ from PIL import Image
 from os import urandom
 
 app = Flask(__name__)
-
 app.secret_key = urandom(24)
 
 vorur = [
@@ -22,7 +21,7 @@ vorur = [
 def home():
 	if 'karfa' not in session:
 		session['karfa'] = []
-	return render_template('vara.tpl', vorur=vorur, lengd=len(vorur))
+	return render_template('vara.tpl', vorur=vorur, lengd=len(vorur), fjoldi=len(session['karfa']))
 
 @app.route("/karfa")
 def karfa():
@@ -37,7 +36,7 @@ def vara(index):
 	cart = session['karfa']
 	cart.append(index)
 	session['karfa'] = cart
-	return "this is kinda sad"
+	return redirect(url_for('home'))
 
 @app.errorhandler(404)
 def error(error):

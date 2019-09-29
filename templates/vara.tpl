@@ -1,4 +1,9 @@
 {% extends "index.html" %}
+
+{% block header %}
+<p><a href="{{ url_for('karfa') }}">Karfa - {{ fjoldi }}</a></p>
+{% endblock %}
+
 {% block content %}
 <div>
     {% for index in range(lengd) %}

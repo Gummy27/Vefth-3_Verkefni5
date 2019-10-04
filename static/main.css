@@ -6,6 +6,9 @@ body{
 
     text-align: center;
 }
+main{
+    min-height: 38em;
+}
 .row{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -23,7 +26,7 @@ a{
 
 .karfaGrid{
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 7fr 2fr 1fr;
     padding-bottom: 20px;
 }
 .karfaGrid ol{
@@ -40,7 +43,53 @@ a{
 .karfaGrid ol:nth-child(2){
     text-align: left;
 }
-
-.karfaGrid ol ul:nth-child(odd){
-    background-color: lightgray;
+.karfaGrid ol:nth-child(3){
+    text-align: left;
+    color: red;
 }
+
+
+.karfaGrid ol ul:nth-child(odd){background-color: lightgray;}
+
+.Form{text-align: center;}
+
+.Form div{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: "title form";
+}
+
+.Form p{
+    grid-area: "title"; 
+    text-align: right;
+    padding-right: 10px;
+}
+.Form input{grid-area: "form";}
+
+.order{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas: "left right";
+}
+
+.order ol{
+    padding: 0;
+    margin: 0;
+}
+
+.order ol:first-child{
+    grid-area: left;
+    text-align: left;
+    margin: 0;
+}
+.order ol ul{
+    border: 1px solid black;
+    padding: 4px;
+}
+
+.order ol:nth-child(2){
+    grid-area: right;
+    text-align: left;
+}
+
+.order ol ul:nth-child(odd){background-color: lightgray;}

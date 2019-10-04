@@ -1,5 +1,4 @@
 from flask import Flask, render_template, session, url_for, request, redirect
-from PIL import Image
 from os import urandom
 
 app = Flask(__name__)
@@ -23,13 +22,38 @@ def home():
 		session['karfa'] = []
 	return render_template('vara.tpl', vorur=vorur, lengd=len(vorur), fjoldi=len(session['karfa']))
 
-@app.route("/karfa")
+@app.route("/karfa", methods=['POST', 'GET'])
 def karfa():
-	cart = session['karfa']
+	cart, samtals = session['karfa'], 0
+	
+	for index in cart:
+		samtals += int(vorur[index][3].replace('.', ''))
+	
+	new = ""
+	for index, tala in enumerate(str(samtals)[::-1]):
+		if (index+1) % 3 == 0 and index+1 != len(str(samtals)):
+			new += tala
+			new += '.'
+		else:
+			new += tala
+	samtals = new[::-1]
+
+	if request.method == 'POST':
+			session['nafn'] = request.form.get('nafn')
+			session['heimilisfang'] = request.form.get('heimilisfang')
+			session['tolvupostur'] = request.form.get('tolvupostur')
+			session['simanumer'] = request.form.get('simanumer')
+			session['karfa'] = []
+
+			return render_template('order.tpl', nafn=session['nafn'], heimilisfang=session['heimilisfang'], tolvupostur=session['tolvupostur'], simanumer=session['simanumer'], samtals=samtals, cart=cart, vorur=vorur)
+
+
 	if len(cart) == 0:
 		return "<h1> Karfan er Tóm </h1>"
 	else:
-		return render_template('listKarfa.tpl', karfa=cart, vorur=vorur)
+		return render_template('listKarfa.tpl', karfa=cart, vorur=vorur, samtals=samtals)
+
+	
 
 @app.route("/add/<int:index>")
 def vara(index):
@@ -37,6 +61,13 @@ def vara(index):
 	cart.append(index)
 	session['karfa'] = cart
 	return redirect(url_for('home'))
+
+@app.route("/delete/<int:index>")
+def delete(index):
+	cart = session['karfa']
+	cart.pop(index)
+	session['karfa'] = cart
+	return redirect(url_for('karfa'))
 
 @app.errorhandler(404)
 def error(error):
